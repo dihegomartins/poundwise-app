@@ -95,5 +95,8 @@ buttonRow: {
     fontWeight: 'bold',
   },
 
-
+  scrollContainer: {
+    flexGrow: 1, // Importante para o ScrollView ocupar a tela toda
+    backgroundColor: '#F5F5F5',
+  },
 });
