@@ -1,50 +1,45 @@
-# Welcome to your Expo app 👋
+# 💷 PoundWise
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+<p align="center">
+  <img src="./screenshot.png" width="300" title="PoundWise App">
+</p>
 
-## Get started
+**PoundWise** é uma calculadora financeira especializada para brasileiros que estão planejando ou vivendo em Londres. O app ajuda a converter custos de moradia e transporte (Oyster Caps) de forma rápida e precisa.
 
-1. Install dependencies
+---
 
+## 🚀 Funcionalidades (Roadmap)
+
+- [x] **FEAT-01**: Conversão de Aluguel Semanal para Mensal.
+- [x] **FEAT-02**: Interface Limpa e Campo de Limpeza Rápida.
+- [x] **FEAT-03**: Calculadora de Transporte (TFL London Zones 1-4).
+- [ ] **FEAT-04**: Conversor Consolidado BRL/GBP (Em desenvolvimento).
+
+## 🛠️ Tecnologias Utilizadas
+
+- **React Native** com **Expo** (SDK 52+).
+- **TypeScript** para tipagem e segurança de código.
+- **Expo Router** para navegação baseada em arquivos.
+- **Context & Constants**: Centralização de regras de negócio (Preços da TFL).
+
+## 📱 Como Rodar o Projeto
+
+1. Instale as dependências:
    ```bash
    npm install
-   ```
-
-2. Start the app
-
-   ```bash
+2. Inicie o servidor do Expo:
+   #Bash
    npx expo start
-   ```
 
-In the output, you'll find options to open the app in a
+3. Escaneie o QR Code com o app Expo Go (Android) ou a câmera (iOS).
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+🧠 O que aprendi neste projeto
+Este projeto foi focado em aplicar padrões de mercado (Clean Code), como:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Componentização: Divisão de UI para facilitar a manutenção.
 
-## Get a fresh project
+UX Nativa: Uso de KeyboardAvoidingView e ScrollView para navegação fluida em dispositivos móveis.
 
-When you're ready, run:
+Gestão de Constantes: Centralização de valores "mágicos" para facilitar atualizações futuras de preços da TFL.
 
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Desenvolvido com ☕ e foco no mercado de Londres.
