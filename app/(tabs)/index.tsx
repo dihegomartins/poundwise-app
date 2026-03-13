@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { styles } from './index.styles';
 
 export default function HomeScreen() {
   const [weeklyRent, setWeeklyRent] = useState('');
@@ -7,6 +8,7 @@ export default function HomeScreen() {
     ? (parseFloat(weeklyRent) * 52 / 12).toFixed(2) 
     : '0.00';
 
+  const [transportCost, setTransportCost] = useState(0);
 
 return (
     <View style={styles.container}>
@@ -31,68 +33,41 @@ return (
         <Text style={styles.resultLabel}>Monthly Equivalent:</Text>
         <Text style={styles.resultValue}>£ {monthlyRent}</Text>
       </View>
+
+      <Text style={styles.label}>Weekly Transport (Oyster Cap):</Text>
+      <View style={styles.buttonRow}>
+        <TouchableOpacity 
+          style={[styles.zoneButton, transportCost === 42.7 && styles.zoneButtonActive]} 
+          onPress={() => setTransportCost(42.7)}
+        >
+          <Text style={transportCost === 42.7 ? styles.zoneTextActive : styles.zoneText}>Z1-2</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={[styles.zoneButton, transportCost === 50 && styles.zoneButtonActive]} 
+          onPress={() => setTransportCost(50)}
+        >
+          <Text style={transportCost === 50 ? styles.zoneTextActive : styles.zoneText}>Z1-3</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={[styles.zoneButton, transportCost === 61.2 && styles.zoneButtonActive]} 
+          onPress={() => setTransportCost(61.2)}
+        >
+          <Text style={transportCost === 61.2 ? styles.zoneTextActive : styles.zoneText}>Z1-4</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Resultado do Transporte Mensal */}
+      <View style={styles.transportResult}>
+        <Text style={styles.resultLabel}>Monthly Transport:</Text>
+        <Text style={styles.resultValueSmall}>£ {(transportCost * 52 / 12).toFixed(2)}</Text>
+      </View>
+
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#F5F5F5',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 30,
-    color: '#1A1A1A',
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 8,
-    color: '#333',
-  },
-  input: {
-    backgroundColor: '#FFF',
-    padding: 15,
-    borderRadius: 10,
-    fontSize: 18,
-    borderWidth: 1,
-    borderColor: '#DDD',
-    marginBottom: 20,
-  },
-  resultBox: {
-    backgroundColor: '#1A1A1A',
-    padding: 20,
-    borderRadius: 15,
-    alignItems: 'center',
-  },
-  resultLabel: {
-    color: '#FFF',
-    fontSize: 14,
-    opacity: 0.8,
-  },
-  resultValue: {
-    color: '#FFF',
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginTop: 5,
-  },
-
-clearButton: {
-  marginTop: -10,
-  marginBottom: 20,
-  alignItems: 'flex-end',
-},
-clearButtonText: {
-  color: '#007AFF', // Cor azul padrão do iOS
-  fontSize: 14,
-},
-
-
-});
 
 
 
