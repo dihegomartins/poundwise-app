@@ -83,7 +83,7 @@ buttonRow: {
     fontWeight: '600',
   },
   transportResult: {
-    backgroundColor: '#333', // Um cinza mais claro para diferenciar do aluguer
+    backgroundColor: '#333', 
     padding: 15,
     borderRadius: 15,
     alignItems: 'center',
@@ -96,7 +96,7 @@ buttonRow: {
   },
 
   scrollContainer: {
-    flexGrow: 1, // Importante para o ScrollView ocupar a tela toda
+    flexGrow: 1, 
     backgroundColor: '#F5F5F5',
   },
 });

@@ -11,6 +11,25 @@ import {
 import { styles } from './index.styles';
 import { TFL_WEEKY_CAPS } from '@/constants/Transport'; 
 
+
+// Função de Segurança para limpar os dados de entrada
+const sanitizeNumericInput = (text: string) => {
+  // 1. Substitui vírgula por ponto (comum no teclado brasileiro)
+  let cleaned = text.replace(',', '.');
+  
+  // 2. Remove tudo que não for número ou ponto
+  cleaned = cleaned.replace(/[^0-9.]/g, '');
+  
+  // 3. Garante que só exista um único ponto decimal
+  const parts = cleaned.split('.');
+  if (parts.length > 2) {
+    cleaned = parts[0] + '.' + parts.slice(1).join('');
+  }
+  
+  return cleaned;
+};
+
+
 export default function HomeScreen() {
   const [weeklyRent, setWeeklyRent] = useState('');
   const [transportCost, setTransportCost] = useState(0);
@@ -39,7 +58,10 @@ export default function HomeScreen() {
             style={styles.input}
             placeholder="e.g. 400"
             keyboardType="numeric"
-            onChangeText={(text) => setWeeklyRent(text)}
+            onChangeText={(text) =>{
+              const safeText = sanitizeNumericInput(text);
+              setWeeklyRent(safeText);
+            }}
             value={weeklyRent}
           />
           <TouchableOpacity 
