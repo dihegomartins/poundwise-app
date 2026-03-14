@@ -13,29 +13,43 @@ import { TFL_WEEKY_CAPS } from '@/constants/Transport';
 import { CurrencySelector } from '@/components/CurrencySelector';
 import { CurrencyCode } from '@/constants/currencies';
 import { sanitizeNumericInput } from '@/utils/sanitizers';
+import { CURRENCIES } from '@/constants/currencies';
 
 export default function HomeScreen() {
   const [weeklyRent, setWeeklyRent] = useState('');
   const [transportCost, setTransportCost] = useState(0);
   const [currency, setCurrency] = useState<CurrencyCode>('GBP');
 
-// 1. Defina a taxa
-  const EXCHANGE_RATE = 7.30;
 
-  // 2. Calcule o valor mensal sempre em números (Number) para não dar erro no formatValue
-  // Se o campo estiver vazio, o valor é 0
-  const monthlyRentNumber = weeklyRent ? (parseFloat(weeklyRent) * 52 / 12) : 0;
-  
-  // O transporte já é um número (transportCost), então calculamos direto
-  const monthlyTransportNumber = (transportCost * 52 / 12);
+const EXCHANGE_RATE = 7.30;
 
-  // 3. A função de formatar (garantindo que ela recebe um número)
-  const formatValue = (valueInGbp: number) => {
-    if (currency === 'BRL') {
-      return `R$ ${(valueInGbp * EXCHANGE_RATE).toFixed(2)}`;
+  // 1. Primeiro, descobrimos quanto vale a SEMANA na moeda oposta
+  const weeklyInOtherCurrency = weeklyRent 
+    ? (currency === 'BRL' 
+        ? parseFloat(weeklyRent) / EXCHANGE_RATE 
+        : parseFloat(weeklyRent) * EXCHANGE_RATE)
+    : 0;
+
+  // 2. Agora calculamos o MÊS já na moeda convertida
+  const monthlyConverted = (weeklyInOtherCurrency * 52 / 12).toFixed(2);
+
+  // 3. O transporte continua igual
+  const monthlyTransport = (transportCost * 52 / 12).toFixed(2);
+
+  // 4. A função de formatar agora só coloca o símbolo certo
+  const formatValue = (valueString: string, isTransport = false) => {
+    const value = parseFloat(valueString);
+
+    if (isTransport) {
+      return currency === 'BRL' 
+        ? `R$ ${(value * EXCHANGE_RATE).toFixed(2)}` 
+        : `£ ${value.toFixed(2)}`;
     }
-      return `£ ${valueInGbp.toFixed(2)}`;
+
+    // Se a moeda de ORIGEM é BRL, o resultado é em GBP
+    return currency === 'BRL' ? `£ ${valueString}` : `R$ ${valueString}`;
   };
+
   return (
     <KeyboardAvoidingView 
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -54,10 +68,13 @@ export default function HomeScreen() {
           />
           
           {/* SEÇÃO: ALUGUEL */}
-          <Text style={styles.label}>Weekly Rent (£):</Text>
-          <TextInput
+            <Text style={styles.label}>
+              Weekly Rent ({CURRENCIES[currency].symbol}):
+            </Text>
+
+            <TextInput
             style={styles.input}
-            placeholder="e.g. 400"
+            placeholder={currency === 'BRL' ? "e.g. 3000" : "e.g. 400"}
             keyboardType="numeric"
             onChangeText={(text) =>{
               const safeText = sanitizeNumericInput(text);
@@ -74,7 +91,7 @@ export default function HomeScreen() {
           
           <View style={styles.resultBox}>
             <Text style={styles.resultLabel}>Monthly Equivalent:</Text>
-            <Text style={styles.resultValue}>{formatValue(monthlyRentNumber)}</Text>
+            <Text style={styles.resultValue}>{formatValue(monthlyConverted)}</Text>
           </View>
 
           {/* O Botão Clear entra logo aqui embaixo */}
@@ -118,7 +135,7 @@ export default function HomeScreen() {
 
           <View style={styles.transportResult}>
             <Text style={styles.resultLabel}>Monthly Transport:</Text>
-            <Text style={styles.resultValueSmall}>{formatValue(monthlyTransportNumber)}</Text>
+            <Text style={styles.resultValueSmall}>{formatValue(monthlyTransport, true)}</Text>
           </View>
         </View>
       </ScrollView>
