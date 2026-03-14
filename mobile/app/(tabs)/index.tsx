@@ -11,6 +11,27 @@ import {
 import { styles } from './index.styles';
 import { TFL_WEEKY_CAPS } from '@/constants/Transport'; 
 
+const CURRENCIES = {
+  BRL: { 
+    id: 'BRL',
+    label: 'Real (R$)', 
+    symbol: 'R$', 
+    defaultRate: '7.20' // Valor médio atual em Londres
+  },
+  EUR: { 
+    id: 'EUR',
+    label: 'Euro (€)', 
+    symbol: '€', 
+    defaultRate: '0.85' 
+  },
+  USD: { 
+    id: 'USD',
+    label: 'Dólar ($)', 
+    symbol: '$', 
+    defaultRate: '0.78' 
+  },
+};
+
 
 // Função de Segurança para limpar os dados de entrada
 const sanitizeNumericInput = (text: string) => {
@@ -79,7 +100,10 @@ export default function HomeScreen() {
           {/* O Botão Clear entra logo aqui embaixo */}
           {weeklyRent.length > 0 && (
             <TouchableOpacity 
-              onPress={() => setWeeklyRent('')} 
+              onPress={() => {
+                setWeeklyRent(''); 
+                setTransportCost(0);
+              }}
               style={styles.resultClearButton}
               activeOpacity={0.7} // Feedback visual de toque
             >

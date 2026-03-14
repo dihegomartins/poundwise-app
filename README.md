@@ -1,12 +1,19 @@
 # 💷 PoundWise
 
 <p align="center">
-  <img src="./screenshot.png" width="300" title="PoundWise App">
+  <img src="./mobile/assets/screenshot.png" width="300" title="PoundWise App">
 </p>
 
 **PoundWise** é uma calculadora financeira especializada para brasileiros que estão planejando ou vivendo em Londres. O app ajuda a converter custos de moradia e transporte (Oyster Caps) de forma rápida e precisa.
 
----
+
+## 🏗️ Estrutura do Projeto (Monorepo)
+
+O projeto agora é organizado de forma escalável para suportar tanto o aplicativo quanto o servidor:
+
+- **`/mobile`**: O coração do app (React Native/Expo).
+- **`/backend`**: API para conversão de moedas e serviços (Node.js/Express).
+
 
 ## 🚀 Funcionalidades (Roadmap)
 
@@ -19,14 +26,15 @@
 
 - **React Native** com **Expo** (SDK 52+).
 - **TypeScript** para tipagem e segurança de código.
-- **Expo Router** para navegação baseada em arquivos.
-- **Context & Constants**: Centralização de regras de negócio (Preços da TFL).
+- **Expo Router** para navegação.
+- **Node.js**: Estrutura de backend preparada para a API.
 
 ## 📱 Como Rodar o Projeto
 
-1. Instale as dependências:
+### Aplicativo Mobile
+1. Entre na pasta correspondente:
    ```bash
-   npm install
+   cd mobile
 2. Inicie o servidor do Expo:
    ```bash
    npx expo start
