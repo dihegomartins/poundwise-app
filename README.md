@@ -28,7 +28,7 @@
    ```bash
    npm install
 2. Inicie o servidor do Expo:
-   #Bash
+   ```bash
    npx expo start
 
 3. Escaneie o QR Code com o app Expo Go (Android) ou a câmera (iOS).
