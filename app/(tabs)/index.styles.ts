@@ -99,4 +99,20 @@ buttonRow: {
     flexGrow: 1, 
     backgroundColor: '#F5F5F5',
   },
+
+  inputContainer: {
+    width: '100%',
+    position: 'relative', // Importante para posicionar o botão se quiser dentro do campo
+    marginBottom: 20,
+  },
+  resultClearButton: {
+    marginTop: 8,
+    alignSelf: 'flex-end', // Alinha à direita abaixo do input
+    padding: 4,
+  },
+  resultClearButtonText: {
+    color: '#FF3B30', // Vermelho estilo iOS para indicar "limpar/deletar"
+    fontSize: 14,
+    fontWeight: '600',
+  },
 });

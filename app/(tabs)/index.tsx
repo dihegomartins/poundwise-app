@@ -76,6 +76,17 @@ export default function HomeScreen() {
             <Text style={styles.resultValue}>£ {monthlyRent}</Text>
           </View>
 
+          {/* O Botão Clear entra logo aqui embaixo */}
+          {weeklyRent.length > 0 && (
+            <TouchableOpacity 
+              onPress={() => setWeeklyRent('')} 
+              style={styles.resultClearButton}
+              activeOpacity={0.7} // Feedback visual de toque
+            >
+              <Text style={styles.resultClearButtonText}>Clear Calculation</Text>
+            </TouchableOpacity>
+          )}
+
           {/* SEÇÃO: TRANSPORTE */}
           <Text style={styles.label}>Weekly Transport (Oyster Cap):</Text>
           <View style={styles.buttonRow}>
