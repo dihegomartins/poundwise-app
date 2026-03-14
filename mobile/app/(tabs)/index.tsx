@@ -10,57 +10,32 @@ import {
 } from 'react-native';
 import { styles } from './index.styles';
 import { TFL_WEEKY_CAPS } from '@/constants/Transport'; 
-
-const CURRENCIES = {
-  BRL: { 
-    id: 'BRL',
-    label: 'Real (R$)', 
-    symbol: 'R$', 
-    defaultRate: '7.20' // Valor médio atual em Londres
-  },
-  EUR: { 
-    id: 'EUR',
-    label: 'Euro (€)', 
-    symbol: '€', 
-    defaultRate: '0.85' 
-  },
-  USD: { 
-    id: 'USD',
-    label: 'Dólar ($)', 
-    symbol: '$', 
-    defaultRate: '0.78' 
-  },
-};
-
-
-// Função de Segurança para limpar os dados de entrada
-const sanitizeNumericInput = (text: string) => {
-  // 1. Substitui vírgula por ponto (comum no teclado brasileiro)
-  let cleaned = text.replace(',', '.');
-  
-  // 2. Remove tudo que não for número ou ponto
-  cleaned = cleaned.replace(/[^0-9.]/g, '');
-  
-  // 3. Garante que só exista um único ponto decimal
-  const parts = cleaned.split('.');
-  if (parts.length > 2) {
-    cleaned = parts[0] + '.' + parts.slice(1).join('');
-  }
-  
-  return cleaned;
-};
-
+import { CurrencySelector } from '@/components/CurrencySelector';
+import { CurrencyCode } from '@/constants/currencies';
+import { sanitizeNumericInput } from '@/utils/sanitizers';
 
 export default function HomeScreen() {
   const [weeklyRent, setWeeklyRent] = useState('');
   const [transportCost, setTransportCost] = useState(0);
+  const [currency, setCurrency] = useState<CurrencyCode>('GBP');
 
-  const monthlyRent = weeklyRent 
-    ? (parseFloat(weeklyRent) * 52 / 12).toFixed(2) 
-    : '0.00';
+// 1. Defina a taxa
+  const EXCHANGE_RATE = 7.30;
 
-  const monthlyTransport = (transportCost * 52 / 12).toFixed(2);
+  // 2. Calcule o valor mensal sempre em números (Number) para não dar erro no formatValue
+  // Se o campo estiver vazio, o valor é 0
+  const monthlyRentNumber = weeklyRent ? (parseFloat(weeklyRent) * 52 / 12) : 0;
+  
+  // O transporte já é um número (transportCost), então calculamos direto
+  const monthlyTransportNumber = (transportCost * 52 / 12);
 
+  // 3. A função de formatar (garantindo que ela recebe um número)
+  const formatValue = (valueInGbp: number) => {
+    if (currency === 'BRL') {
+      return `R$ ${(valueInGbp * EXCHANGE_RATE).toFixed(2)}`;
+    }
+      return `£ ${valueInGbp.toFixed(2)}`;
+  };
   return (
     <KeyboardAvoidingView 
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -70,8 +45,13 @@ export default function HomeScreen() {
         contentContainerStyle={styles.scrollContainer} 
         keyboardShouldPersistTaps="handled"
       >
-        <View style={styles.container}>
-          <Text style={styles.title}>PoundWise</Text>
+          <View style={styles.container}>
+            <Text style={styles.title}>PoundWise</Text>
+            <CurrencySelector 
+            label="Moeda de Origem"
+            selectedCurrency={currency}
+            onSelect={(code) => setCurrency(code)}
+          />
           
           {/* SEÇÃO: ALUGUEL */}
           <Text style={styles.label}>Weekly Rent (£):</Text>
@@ -94,7 +74,7 @@ export default function HomeScreen() {
           
           <View style={styles.resultBox}>
             <Text style={styles.resultLabel}>Monthly Equivalent:</Text>
-            <Text style={styles.resultValue}>£ {monthlyRent}</Text>
+            <Text style={styles.resultValue}>{formatValue(monthlyRentNumber)}</Text>
           </View>
 
           {/* O Botão Clear entra logo aqui embaixo */}
@@ -138,7 +118,7 @@ export default function HomeScreen() {
 
           <View style={styles.transportResult}>
             <Text style={styles.resultLabel}>Monthly Transport:</Text>
-            <Text style={styles.resultValueSmall}>£ {monthlyTransport}</Text>
+            <Text style={styles.resultValueSmall}>{formatValue(monthlyTransportNumber)}</Text>
           </View>
         </View>
       </ScrollView>
